@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
       JSON.stringify(reducer)
     }
     {
-      reducer.count &&
+      reducer.count?
      <Pagination
      length={10}
      hasMore={reducer.next? true : false}
@@ -29,14 +29,14 @@ const HomePage: React.FC = () => {
      ElementLoading={ () => <h1>Carregando..</h1>}
      loading={reducer.loading}
       >
-       {
-         reducer.results  &&
-         reducer.results.map((pokemon,index) => (
-           <h1 key={index}>{pokemon.name}</h1>
-         ))
-       }
+        {
+          reducer.results?.map((element) => {
+            return <h1 key={element.name}>{element.name}</h1>
+          })
+        }
     </Pagination>
-    }
+    : <h1>Carregando Component</h1>
+    } 
     </>
   );
 };

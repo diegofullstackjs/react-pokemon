@@ -14,6 +14,7 @@ const Pagination: React.FC<Props> = ({
   ElementLoading,
   children,
 }) => {
+  
   const customEvent = useCallback(
     (e: Event) => {
       if (loading) return;
@@ -26,10 +27,12 @@ const Pagination: React.FC<Props> = ({
     },
     [loading, next]
   );
-  // eslint-disable-next-line no-lone-blocks
+  useEffect(() => {
+    console.log(loading)
+  },[loading])
   useEffect(() => {
     {
-      window.addEventListener("scroll", (e: Event) => {
+      window.addEventListener("scroll", (e: Event): void => {
         customEvent(e);
       });
       return () =>

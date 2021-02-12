@@ -5,14 +5,28 @@ function requestPokemonApi(){
     }
 }
 function requestPokemonSuccess(data: IPOKEMON){
-    console.log()
     return {
         type: 'POKEMON_API_REQUEST_SUCCESS',
         payload: data
     }
 }
+function requestDetailsPokemon(data: IPOKEMON){
+    console.log(data)
+    return {
+        type: 'POKEMON_API_REQUEST_DETAILS',
+        payload: data
+    }
+}
+function requestPokemoneError(){
+    return {
+        type: 'POKEMON_API_REQUEST_ERROR',
+    }
+}
+//DETAILS OF POKEMON 
 
 export {
     requestPokemonSuccess,
-    requestPokemonApi
+    requestPokemonApi,
+    requestDetailsPokemon,
+    requestPokemoneError
 }

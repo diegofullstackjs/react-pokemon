@@ -1,4 +1,12 @@
-export interface IPOKEMONRESULT {
+interface EFFECTENTRIES {
+    effect: string
+    short_effect: string
+}
+export interface OBJECTPOKEMON {
+    name: string,
+    effect_entries: EFFECTENTRIES[]
+}
+export interface IPOKEMONRESULT{
     name: string
     url: string
 }
@@ -8,7 +16,8 @@ export interface IPOKEMON {
     count: number
     next: string | null
     previous: string | null
-    results: IPOKEMONRESULT[] | null  
+    results: IPOKEMONRESULT[] | null 
+    pokemon_details?: OBJECTPOKEMON[] | undefined
 }
 export interface ActionType {
     type: string,
@@ -17,6 +26,7 @@ export interface ActionType {
         next: string | null
         previous: string | null
         results: IPOKEMONRESULT[] | null
+        pokemon_details?: OBJECTPOKEMON[]
     }
 }
 const INITIAL_STATE : IPOKEMON  = {
@@ -25,7 +35,8 @@ const INITIAL_STATE : IPOKEMON  = {
     count: 0,
     next: null,
     previous: null,
-    results: []
+    results: [],
+    pokemon_details: []
 }
 function pokemonReducer(state=INITIAL_STATE,action: ActionType){
     switch(action.type) {
@@ -36,21 +47,6 @@ function pokemonReducer(state=INITIAL_STATE,action: ActionType){
                 error: false
             }
         case 'POKEMON_API_REQUEST_SUCCESS':
-            if(state.results !== null){
-                return {
-                    ...state,
-                    loading:false,
-                    error: false,
-                    count: action.payload.count,
-                    next: action.payload.next,
-                    previous: action.payload.previous,
-                    results: [
-                        ...state.results,
-                        action.payload.results
-                    ]
-                    }
-            }else {
-
                 return{
                     ...state,
                     loading:false,
@@ -60,13 +56,19 @@ function pokemonReducer(state=INITIAL_STATE,action: ActionType){
                     previous: action.payload.previous,
                     results: action.payload.results
                 }
-            }
         case 'POKEMON_API_REQUEST_ERROR':
             return {
                 ...state,
                 error: true,
                 loading:false
             }
+        case 'POKEMON_API_REQUEST_DETAILS' : 
+        return {
+            ...state,
+            error: false,
+            loading: false,
+            pokemon_details: action.payload
+        }
         default:
             return state
 
