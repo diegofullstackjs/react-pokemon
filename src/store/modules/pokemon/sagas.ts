@@ -6,7 +6,7 @@ import {ActionType, IPOKEMON} from './reducer'
 function* getPokemon(info: ActionType) {
     yield console.log(info)
      const state:IPOKEMON = yield select((state:ISTATE) => (state.pokemon))
-     let currentPage = state.next? state.next : 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=100';
+     let currentPage = state.next? state.next : 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=200';
      let pokemon:AxiosResponse<IPOKEMON> = yield call(axios.get,currentPage)
      yield put(requestPokemonSuccess(pokemon.data))
 }
